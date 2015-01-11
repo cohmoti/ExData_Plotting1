@@ -1,0 +1,15 @@
+houseRaw = read.table("household_power_consumption.txt", sep=";", header = TRUE,colClasses="character")
+house = subset(houseRaw,Date == "1/2/2007" | Date == "2/2/2007")
+house$RTime = strptime(paste(house$Date, house$Time),format="%d/%m/%Y %H:%M:%S")
+house$Sub_metering_1 = as.numeric(house$Sub_metering_1)
+house$Sub_metering_2 = as.numeric(house$Sub_metering_2)
+house$Sub_metering_3 = as.numeric(house$Sub_metering_3)
+
+plot(house$RTime, house$Sub_metering_1, ylab="Energy sub metering",xlab="", type="n")
+lines(house$RTime,house$Sub_metering_1,col="black")
+lines(house$RTime,house$Sub_metering_2,col="red")
+lines(house$RTime,house$Sub_metering_3,col="blue")
+legend("topright", c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), lty=c(1,1,1), lwd=c(2.5,2.5,2.5),col=c("black","red","blue"))
+
+dev.copy(png,"plot3.png")
+dev.off()
